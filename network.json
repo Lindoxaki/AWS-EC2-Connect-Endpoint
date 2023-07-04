@@ -1,0 +1,101 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Network Infrastructure (VPC) template",
+    "Parameters": {
+      "VpcCIDR": {
+        "Description": "Please enter the IP range (CIDR notation) for the VPC",
+        "Type": "String",
+        "Default": "10.0.0.0/16"
+      },
+      "Subnet1CIDR": {
+        "Description": "Please enter the IP range (CIDR notation) for the first subnet",
+        "Type": "String",
+        "Default": "10.0.1.0/24"
+      },
+      "Subnet2CIDR": {
+        "Description": "Please enter the IP range (CIDR notation) for the second subnet",
+        "Type": "String",
+        "Default": "10.0.2.0/24"
+      },
+      "CurrentOwner": {
+        "Description": "Please enter the current owner tag (Must be an email)",
+        "Type": "String"
+      }
+    },
+    "Resources": {
+      "MyVPC": {
+        "Type": "AWS::EC2::VPC",
+        "Properties": {
+          "CidrBlock": { "Ref": "VpcCIDR" },
+          "Tags": [
+            {
+              "Key": "OWNER",
+              "Value": { "Ref": "CurrentOwner" }
+            },
+            {
+              "Key": "Name",
+              "Value": "eic-vpc"
+            }
+          ]
+        }
+      },
+      "MySubnet1": {
+        "Type": "AWS::EC2::Subnet",
+        "Properties": {
+          "VpcId": { "Ref": "MyVPC" },
+          "CidrBlock": { "Ref": "Subnet1CIDR" },
+          "AvailabilityZone": { "Fn::Select": [0, { "Fn::GetAZs": "" }] },
+          "Tags": [
+            {
+              "Key": "OWNER",
+              "Value": { "Ref": "CurrentOwner" }
+            },
+            {
+              "Key": "Name",
+              "Value": "eic-subnet1"
+            }
+          ]
+        }
+      },
+      "MySubnet2": {
+        "Type": "AWS::EC2::Subnet",
+        "Properties": {
+          "VpcId": { "Ref": "MyVPC" },
+          "CidrBlock": { "Ref": "Subnet2CIDR" },
+          "AvailabilityZone": { "Fn::Select": [1, { "Fn::GetAZs": "" }] },
+          "Tags": [
+            {
+              "Key": "OWNER",
+              "Value": { "Ref": "CurrentOwner" }
+            },
+            {
+              "Key": "Name",
+              "Value": "eic-subnet2"
+            }
+          ]
+        }
+      }
+    },
+    "Outputs": {
+      "VPCId": {
+        "Description": "ID of the created VPC",
+        "Value": { "Ref": "MyVPC" },
+        "Export": { "Name": "VPCIdExport" }
+      },
+      "Subnet1Id": {
+        "Description": "ID of the first subnet",
+        "Value": { "Ref": "MySubnet1" },
+        "Export": { "Name": "Subnet1IdExport" }
+      },
+      "Subnet2Id": {
+        "Description": "ID of the second subnet",
+        "Value": { "Ref": "MySubnet2" },
+        "Export": { "Name": "Subnet2IdExport" }
+      },
+      "VpcCIDR": {
+        "Description": "VPC CIDR",
+        "Value": { "Ref": "VpcCIDR" },
+        "Export": { "Name": "vpcCIDRExport" }
+      }
+    }
+  }  

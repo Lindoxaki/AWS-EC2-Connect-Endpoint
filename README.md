@@ -26,5 +26,14 @@ A new AWS feature that allows you to connect securely to your instances and othe
 To create an EIC Endpoint with the AWS CLI, run the following command, replacing [SUBNET] with your subnet ID and [SG-ID] with your security group ID:
 
 ```
-dhhd
+aws ec2 create-instance-connect-endpoint \
+    --subnet-id [SUBNET] \
+    --security-group-id [SG-ID]
+```
+
+# Connecting to your Linux Instance using SSH
+To test connecting to your instance from the AWS CLI, you can run the following command where [INSTANCE] is the instance ID of your EC2 instance:
+
+```
+aws ec2-instance-connect ssh --instance-id [INSTANCE]
 ```

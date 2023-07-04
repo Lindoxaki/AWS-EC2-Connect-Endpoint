@@ -19,3 +19,12 @@ A new AWS feature that allows you to connect securely to your instances and othe
 2. To describe and delete EC2 Instance Connect Endpoints, users require permissions for the following actions:
 - ec2:DescribeInstanceConnectEndpoints
 - ec2:DeleteInstanceConnectEndpoint
+
+3. AWSCLI version 2.12.0
+
+# Creating an EIC Endpoint with the AWS CLI
+To create an EIC Endpoint with the AWS CLI, run the following command, replacing [SUBNET] with your subnet ID and [SG-ID] with your security group ID:
+
+```
+dhhd
+```
